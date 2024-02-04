@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Courses = ({ params }) => {
@@ -127,6 +128,15 @@ const Courses = ({ params }) => {
             </ul>
           </div>
         </div>
+      </div>
+
+      <div className="p-4 w-full flex items-center justify-center">
+        <Link
+          href={"/courses/add/module?id=" + courseData._id}
+          className="p-4 bg-red-400"
+        >
+          Add Module
+        </Link>
       </div>
     </div>
   );

@@ -88,18 +88,7 @@ const AddModuleForm = () => {
   };
 
   return (
-    <div className="container mx-auto">
-      <label htmlFor="moduleTitle" className="block font-medium">
-        Course Id:
-      </label>
-      <input
-        type="text"
-        id="ID"
-        value={CourseId}
-        onChange={(e) => setCourseId(e.target.value)}
-        className="form-input w-full"
-        required
-      />
+    <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Add Module</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -108,6 +97,7 @@ const AddModuleForm = () => {
           </label>
           <input
             type="text"
+            placeholder="title"
             id="moduleTitle"
             value={moduleTitle}
             onChange={(e) => setModuleTitle(e.target.value)}
@@ -116,7 +106,7 @@ const AddModuleForm = () => {
           />
         </div>
         {videos.map((video, index) => (
-          <div key={index}>
+          <div key={index} className="mt-4">
             <label className="block font-medium">Video {index + 1}:</label>
             <input
               type="text"
@@ -124,7 +114,7 @@ const AddModuleForm = () => {
               onChange={(e) =>
                 handleVideoChange(index, "title", e.target.value)
               }
-              className="form-input w-full"
+              className="form-input w-full mt-2"
               placeholder="Title"
             />
             <input
@@ -139,12 +129,12 @@ const AddModuleForm = () => {
         <button
           type="button"
           onClick={handleAddVideo}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
         >
           Add Video
         </button>
         {assignments.map((assignment, assignIndex) => (
-          <div key={assignIndex}>
+          <div key={assignIndex} className="mt-4">
             <label className="block font-medium">
               Assignment {assignIndex + 1} Title:
             </label>
@@ -154,7 +144,7 @@ const AddModuleForm = () => {
               onChange={(e) =>
                 handleAssignmentChange(assignIndex, "title", e.target.value)
               }
-              className="form-input w-full"
+              className="form-input w-full mt-2"
               placeholder="Title"
             />
             <label className="block font-medium mt-2">
@@ -165,7 +155,7 @@ const AddModuleForm = () => {
               onChange={(e) =>
                 handleAssignmentChange(assignIndex, "type", e.target.value)
               }
-              className="form-select w-full"
+              className="form-select w-full mt-2"
             >
               <option value="MCQ">MCQ</option>
               <option value="SubmissionLink">Submission Link</option>
@@ -179,18 +169,17 @@ const AddModuleForm = () => {
                   onChange={(e) =>
                     handleAssignmentChange(assignIndex, "link", e.target.value)
                   }
-                  className="form-input w-full"
+                  className="form-input w-full mt-2"
                   placeholder="Submission Link"
                 />
               </div>
             )}
-
             {assignment.type === "MCQ" && (
               <div className="mt-4">
                 <button
                   type="button"
                   onClick={() => handleAddQuestion(assignIndex)}
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                  className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
                 >
                   Add Question
                 </button>
@@ -210,7 +199,7 @@ const AddModuleForm = () => {
                           e.target.value
                         )
                       }
-                      className="form-input w-full"
+                      className="form-input w-full mt-2"
                       placeholder="Question Text"
                     />
                     <label className="block font-medium mt-2">Options:</label>
@@ -266,13 +255,14 @@ const AddModuleForm = () => {
         <button
           type="button"
           onClick={handleAddAssignment}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
         >
           Add Assignment
         </button>
+        <br />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-red-500 text-white px-4 py-2 rounded"
         >
           Add Module
         </button>

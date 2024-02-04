@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const CreateCourseForm = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const CreateCourseForm = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +24,9 @@ const CreateCourseForm = () => {
         "http://localhost:9000/course",
         formData
       );
+      router.push("/courses");
       console.log(response.data);
+
       // Handle success
     } catch (error) {
       console.error("Error creating course:", error);

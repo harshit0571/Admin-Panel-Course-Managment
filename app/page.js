@@ -21,6 +21,16 @@ export default function Home() {
             Check Users
           </div>
         </Link>
+        <Link href="/courses/add" passHref>
+          <div className="bg-blue-500 text-white p-4 rounded shadow-md cursor-pointer hover:bg-blue-600 transition duration-300">
+            Add Course
+          </div>
+        </Link>
+        <Link href="/courses/add" passHref>
+          <div className="bg-blue-500 text-white p-4 rounded shadow-md cursor-pointer hover:bg-blue-600 transition duration-300">
+            Add Module
+          </div>
+        </Link>
       </div>
     </div>
   );
