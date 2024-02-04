@@ -1,9 +1,15 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 
 const AddModuleForm = () => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
   const [moduleTitle, setModuleTitle] = useState("");
+  const [CourseId, setCourseId] = useState(id);
+  console.log(CourseId);
   const [videos, setVideos] = useState([{ title: "", url: "" }]);
   const [assignments, setAssignments] = useState([
     { title: "", type: "MCQ", questions: [] },
@@ -35,6 +41,7 @@ const AddModuleForm = () => {
       questionText: "",
       options: ["", "", ""],
       correctAnswer: "",
+      questionType: "MCQ",
     });
     setAssignments(newAssignments);
   };
@@ -60,18 +67,21 @@ const AddModuleForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(moduleTitle, videos, assignments);
     try {
-      const response = await axios.post("/api/modules", {
-        title: moduleTitle,
-        videos,
-        assignments,
-      });
+      const response = await axios.post(
+        "http://localhost:9000/course/" + CourseId + "/modules",
+        {
+          moduleTitle,
+          videosArray: videos,
+          assignments,
+        }
+      );
       console.log("Module added successfully:", response.data);
       // Reset form fields
       setModuleTitle("");
       setVideos([{ title: "", url: "" }]);
-      setAssignments([{ title: "", type: "MCQ", questions: [] }]);
+      setAssignments([{ title: "", questionType: "MCQ", questions: [] }]);
     } catch (error) {
       console.error("Error adding module:", error);
     }
@@ -79,6 +89,17 @@ const AddModuleForm = () => {
 
   return (
     <div className="container mx-auto">
+      <label htmlFor="moduleTitle" className="block font-medium">
+        Course Id:
+      </label>
+      <input
+        type="text"
+        id="ID"
+        value={CourseId}
+        onChange={(e) => setCourseId(e.target.value)}
+        className="form-input w-full"
+        required
+      />
       <h2 className="text-2xl font-bold mb-4">Add Module</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -149,6 +170,21 @@ const AddModuleForm = () => {
               <option value="MCQ">MCQ</option>
               <option value="SubmissionLink">Submission Link</option>
             </select>
+            {assignment.type === "SubmissionLink" && (
+              <div className="mt-4">
+                <label className="block font-medium">Submission Link:</label>
+                <input
+                  type="text"
+                  value={assignment.link}
+                  onChange={(e) =>
+                    handleAssignmentChange(assignIndex, "link", e.target.value)
+                  }
+                  className="form-input w-full"
+                  placeholder="Submission Link"
+                />
+              </div>
+            )}
+
             {assignment.type === "MCQ" && (
               <div className="mt-4">
                 <button

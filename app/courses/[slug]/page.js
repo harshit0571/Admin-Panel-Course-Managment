@@ -31,6 +31,9 @@ const Courses = ({ params }) => {
             <h2 className=" text-blue-600 text-center text-3xl uppercase font-bold mb-2">
               {courseData.title}
             </h2>
+            <h2 className=" text-xl text-center text-gray-600 mb-2">
+              id: {courseData._id}
+            </h2>
             <h2 className="text-xl text-center text-gray-600 mb-2">
               {courseData.description}
             </h2>
