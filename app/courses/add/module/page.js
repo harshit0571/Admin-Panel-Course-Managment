@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { apiLink } from "@/api";
 
 const AddModuleForm = () => {
   const searchParams = useSearchParams();
@@ -64,13 +65,14 @@ const AddModuleForm = () => {
       value;
     setAssignments(newAssignments);
   };
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(moduleTitle, videos, assignments);
     try {
       const response = await axios.post(
-        "http://localhost:9000/course/" + CourseId + "/modules",
+        apiLink + "/course/" + CourseId + "/modules",
         {
           moduleTitle,
           videosArray: videos,
@@ -80,6 +82,7 @@ const AddModuleForm = () => {
       console.log("Module added successfully:", response.data);
       // Reset form fields
       setModuleTitle("");
+      router.push("/courses/" + CourseId);
       setVideos([{ title: "", url: "" }]);
       setAssignments([{ title: "", questionType: "MCQ", questions: [] }]);
     } catch (error) {

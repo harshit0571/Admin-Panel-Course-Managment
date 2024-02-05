@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import { apiLink } from "@/api";
+
 import { useRouter } from "next/navigation";
 
 const CreateCourseForm = () => {
@@ -20,10 +22,7 @@ const CreateCourseForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:9000/course",
-        formData
-      );
+      const response = await axios.post(apiLink + "/course", formData);
       router.push("/courses");
       console.log(response.data);
 

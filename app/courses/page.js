@@ -2,14 +2,17 @@
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { apiLink } from "@/api";
 
 const Courses = () => {
   const [data, setData] = useState({ courses: [] });
 
+  console.log(apiLink);
+
   useEffect(() => {
     const getCourses = async () => {
       try {
-        const response = await axios.get("http://localhost:9000/course");
+        const response = await axios.get(apiLink + "/course");
         setData(response.data);
       } catch (error) {
         console.error("Error fetching courses:", error);

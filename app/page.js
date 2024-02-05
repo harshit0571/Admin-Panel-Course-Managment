@@ -1,10 +1,29 @@
 "use client";
+import { apiLink } from "@/api";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const loggin = async () => {
+    const res = await axios.post(
+      apiLink + "/auth/login",
+      { username: "admin", password: "admin" },
+      { withCredentials: true }
+    );
+    console.log(res);
+  };
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      const res = await axios.get(apiLink + "/auth/check-login", {
+        withCredentials: true,
+      });
+      console.log(res);
+    };
+    checkLogin();
+  }, []);
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-4">ADMIN PANEL</h1>
@@ -26,11 +45,14 @@ export default function Home() {
             Add Course
           </div>
         </Link>
-        <Link href="/courses/add" passHref>
-          <div className="bg-blue-500 text-white p-4 rounded shadow-md cursor-pointer hover:bg-blue-600 transition duration-300">
-            Add Module
-          </div>
-        </Link>
+
+        {/* <button
+          onClick={() => {
+            loggin();
+          }}
+        >
+          login
+        </button> */}
       </div>
     </div>
   );

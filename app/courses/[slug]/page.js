@@ -1,5 +1,7 @@
 "use client";
 import axios from "axios";
+import { apiLink } from "@/api";
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -9,14 +11,13 @@ const Courses = ({ params }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:9000/course/" + params.slug
-        );
+        const response = await axios.get(apiLink + "/course/" + params.slug);
         setCourseData(response.data.course);
       } catch (error) {
         console.error("Error fetching course data:", error);
       }
     };
+
     fetchData();
   }, []);
 
