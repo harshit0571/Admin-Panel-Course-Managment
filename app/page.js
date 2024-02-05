@@ -5,10 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export const metadata = {
-  title: "...",
-  description: "...",
-};
+// export const metadata = {
+//   title: "...",
+//   description: "...",
+
+// };
 
 export default function Home() {
   const loggin = async () => {
