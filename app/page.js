@@ -1,6 +1,7 @@
 "use client";
 import { apiLink } from "@/api";
 import axios from "axios";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -32,6 +33,12 @@ export default function Home() {
   }, []);
   return (
     <div className="p-8">
+      <Head>
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+      </Head>
       <h1 className="text-3xl font-bold mb-4">ADMIN PANEL</h1>
       <p className="text-lg mb-4">Choose what you want to do</p>
 
