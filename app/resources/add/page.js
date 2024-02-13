@@ -1,4 +1,5 @@
 "use client";
+import { apiLink } from "@/api";
 import axios from "axios";
 import React, { useState } from "react";
 
@@ -40,7 +41,7 @@ const Page = () => {
       const { fileName } = await response.json();
 
       // Create resource
-      const resource = await axios.post("http://localhost:9000/resource", {
+      const resource = await axios.post(apiLink + "/resource", {
         title,
         description,
         type,
