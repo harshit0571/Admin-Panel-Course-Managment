@@ -12,11 +12,13 @@ export const POST = async (req, res) => {
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const filename = file.name.replaceAll(" ", "_");
+  var filename = file.name.replaceAll(" ", "_");
   console.log(filename);
 
   try {
     await writeFile(path.join(process.cwd(), "public/" + filename), buffer);
+
+    filename = "https://course-managment-api-f5al.vercel.app/" + filename;
     return NextResponse.json({
       Message: "Success",
       fileName: filename,
