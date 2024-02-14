@@ -1,6 +1,7 @@
 "use client";
 import { apiLink } from "@/api";
 import axios from "axios";
+import { Router, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Page = () => {
@@ -8,6 +9,7 @@ const Page = () => {
   const [title, setTitle] = useState("");
   const [Name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const router = useRouter();
   const [type, setType] = useState("video"); // Default type is 'video'
 
   const handleFileChange = (event) => {
@@ -17,56 +19,52 @@ const Page = () => {
   };
 
   const handleSubmit = async () => {
-    if (!file) {
-      const resource = await axios.post("http://localhost:9000/resource", {
-        title,
-        description,
-        type,
-        name: Name,
-      });
+    // if (!file) {
+    const resource = await axios.post(apiLink + "/resource", {
+      title,
+      description,
+      type,
+      name: Name,
+    });
 
-      console.log(resource.data);
-      return;
-    }
+    console.log(resource.data);
+    router.push("/resources");
 
-    const formData = new FormData();
-    formData.append("file", file);
+    return;
+    // }
 
-    try {
-      // Upload file
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const { fileName } = await response.json();
+    // const formData = new FormData();
+    // formData.append("file", file);
 
-      // Create resource
-      const resource = await axios.post(apiLink + "/resource", {
-        title,
-        description,
-        type,
-        name: fileName,
-      });
+    // try {
+    //   // Upload file
+    //   const response = await fetch("/api/upload", {
+    //     method: "POST",
+    //     body: formData,
+    //   });
+    //   const { fileName } = await response.json();
 
-      console.log(resource.data);
+    //   // Create resource
+    //   const resource = await axios.post(apiLink + "/resource", {
+    //     title,
+    //     description,
+    //     type,
+    //     name: fileName,
+    //   });
 
-      // Handle response if needed
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      // Handle error
-    }
+    //   console.log(resource.data);
+
+    //   // Handle response if needed
+    // } catch (error) {
+    //   console.error("Error uploading file:", error);
+    //   // Handle error
+    // }
   };
 
   return (
     <div className="page-container">
       <h2 className="text-2xl text-center">Upload Resource</h2>
       <div className="form-container flex flex-col w-full justify-center items-center gap-4">
-        <input
-          type="file"
-          accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.mp4,.mov,.avi"
-          onChange={handleFileChange}
-          className="p-4"
-        />
         <input
           type="text"
           placeholder="Title"
@@ -76,7 +74,7 @@ const Page = () => {
         />
         <input
           type="text"
-          placeholder="Video Url or File Name"
+          placeholder="Video Url or File Url"
           value={Name}
           onChange={(e) => setName(e.target.value)}
           className="p-4  w-[70%] border-solid border-2 border-black"
