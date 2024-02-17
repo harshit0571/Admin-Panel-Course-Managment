@@ -40,7 +40,7 @@ const AddModuleForm = () => {
     const newAssignments = [...assignments];
     newAssignments[index].questions.push({
       questionText: "",
-      options: ["", "", ""],
+      options: ["", "", "", ""],
       correctAnswer: "",
       questionType: "MCQ",
     });
