@@ -65,6 +65,11 @@ export default function Home() {
           </div>
         </Link>
 
+        <Link href="/contact" passHref>
+          <div className="bg-blue-500 text-white p-4 rounded shadow-md cursor-pointer hover:bg-blue-600 transition duration-300">
+            Messages
+          </div>
+        </Link>
         {/* <button
           onClick={() => {
             loggin();
