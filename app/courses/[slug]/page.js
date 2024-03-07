@@ -127,16 +127,40 @@ const Courses = ({ params }) => {
                   </li>
                 ))}
             </ul>
+
+            <h3 className="text-lg text-blue-600 font-semibold mb-2">
+              Resources
+            </h3>
+            <ul>
+              {courseData.resources &&
+                courseData.resources.map((resource, moduleIndex) => (
+                  <li
+                    key={moduleIndex}
+                    className="mb-2 bg-blue-500 p-10 rounded-md"
+                  >
+                    <p className="text-gray-100 font-bold text-2xl">
+                      {resource}
+                    </p>
+                  </li>
+                ))}
+            </ul>
           </div>
         </div>
       </div>
 
-      <div className="p-4 w-full flex items-center justify-center">
+      <div className="p-4 w-full flex flex-col gap-5 mb-10 items-center justify-center">
         <Link
           href={"/courses/add/module?id=" + courseData._id}
           className="p-4 bg-red-400"
         >
           Add Module
+        </Link>
+
+        <Link
+          href={"/courses/add/resources?id=" + courseData._id}
+          className="p-4 bg-red-400"
+        >
+          Add Resources
         </Link>
       </div>
     </div>
