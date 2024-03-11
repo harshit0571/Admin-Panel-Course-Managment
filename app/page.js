@@ -22,15 +22,15 @@ export default function Home() {
     console.log(res);
   };
 
-  useEffect(() => {
-    const checkLogin = async () => {
-      const res = await axios.get(apiLink + "/auth/check-login", {
-        withCredentials: true,
-      });
-      console.log(res);
-    };
-    checkLogin();
-  }, []);
+  // useEffect(() => {
+  //   const checkLogin = async () => {
+  //     const res = await axios.get(apiLink + "/auth/check-login", {
+  //       withCredentials: true,
+  //     });
+  //     console.log(res);
+  //   };
+  //   checkLogin();
+  // }, []);
   return (
     <div className="p-8">
       <Head>
