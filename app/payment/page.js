@@ -1,84 +1,131 @@
+// // PaymentForm.js
 "use client";
-import React, { useState } from "react";
-import axios from "axios";
+// import { apiLink } from "@/api";
+// import axios from "axios";
+// import { useState } from "react";
 
-const Phonepe = () => {
-  const [loading2, setLoading2] = useState(false);
+import { apiLink } from "@/api";
 
-  const data = {
-    name: "Waleed",
-    amount: 1,
-    number: "7498608775",
-    MUID: "MUID" + Date.now(),
-    transactionId: "T" + Date.now(),
-  };
+// const PaymentForm = () => {
+//   const [amount, setAmount] = useState("");
 
-  const handlePayment = (e) => {
+//   const handlePayment = async () => {
+//     // Call your backend to initiate payment
+//     const response = await axios.get(apiLink + "/pay", { params: { amount } });
+
+//     const { data } = response;
+
+//     const options = {
+//       key: "rzp_test_ITafrUIVpjBMpW", // Your Razorpay key ID
+//       amount: data.amount,
+//       currency: "INR",
+//       name: "Your Company Name",
+//       description: "Product description",
+//       order_id: data.id, // Order ID received from backend
+//       handler: function (response) {
+//         alert(response.razorpay_payment_id);
+//         // Handle payment success
+//       },
+//       prefill: {
+//         name: "Your Name",
+//         email: "your.email@example.com",
+//       },
+//       payment_method: {
+//         method: "upi",
+//       },
+//     };
+
+//     const razorpayInstance = new Razorpay(options);
+//     razorpayInstance.open();
+//   };
+
+//   return (
+//     <div>
+//       <input
+//         type="number"
+//         value={amount}
+//         onChange={(e) => setAmount(e.target.value)}
+//       />
+//       <button onClick={handlePayment}>Pay Now</button>
+//     </div>
+//   );
+// };
+
+// export default PaymentForm;
+
+function Product() {
+  const amount = 500;
+  const currency = "INR";
+  const receiptId = "qwsaq1";
+
+  const paymentHandler = async (e) => {
+    const response = await fetch(apiLink + "/pay/order", {
+      method: "POST",
+      body: JSON.stringify({
+        amount,
+        currency,
+        receipt: receiptId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const order = await response.json();
+    console.log(order);
+
+    var options = {
+      key: "rzp_test_ITafrUIVpjBMpW", // Enter the Key ID generated from the Dashboard
+      amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency,
+      name: "Courses For Career", //your business name
+      description: "Purchase Course",
+      image: "https://example.com/your_logo",
+      order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      handler: async function (response) {
+        const body = {
+          ...response,
+        };
+
+        const validateRes = await fetch(apiLink + "/pay/order/validate", {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const jsonRes = await validateRes.json();
+        console.log(jsonRes, "dddd");
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    var rzp1 = new window.Razorpay(options);
+    rzp1.on("payment.failed", function (response) {
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
+    });
+    rzp1.open();
     e.preventDefault();
-    setLoading2(true);
-    axios
-      .post("http://localhost:9000/pay/payment", { ...data })
-      .then((res) => {
-        setTimeout(() => {
-          setLoading2(false);
-        }, 1500);
-      })
-      .catch((error) => {
-        setLoading2(false);
-        console.error(error);
-      });
   };
-  return (
-    <>
-      <div className="main">
-        <div className="center">
-          {/* <img width={300} src={phonepe} alt="" /> */}
-          <h2 className="fs-4 mt-2">
-            <span className="text-danger fw-bold">LIVE</span> Payment
-            Integration
-          </h2>
-        </div>
-        <div className="card px-5 py-4 mt-5">
-          <form onSubmit={handlePayment}>
-            <div className="col-12 ">
-              <p className="fs-5">
-                <strong>Name:</strong> {data.name}
-              </p>
-            </div>
-            <div className="col-12 ">
-              <p className="fs-5">
-                <strong>Number:</strong> {data.number}
-              </p>
-            </div>
-            <div className="col-12 ">
-              <p className="fs-5">
-                <strong>Amount:</strong> {data.amount}Rs
-              </p>
-            </div>
-            {!loading2 ? (
-              <div className="col-12 center">
-                <button className="w-100 " type="submit">
-                  Pay Now
-                </button>
-              </div>
-            ) : (
-              <div className="col-12 center">
-                <button className="w-100 text-center" type="submit">
-                  <div className="spinner-border" role="status">
-                    <span className="visually-hidden ">Wait...</span>
-                  </div>
-                </button>
-              </div>
-            )}
-          </form>
-        </div>
-      </div>
-      <p className="m-0">@codesense24</p>
-      <p className="" style={{ fontSize: "14px" }}>
-        Subscribe my youtube channel
-      </p>
-    </>
-  );
-};
 
-export default Phonepe;
+  return (
+    <div className="product">
+      <h2>Tshirt</h2>
+      <p>Solid blue cotton Tshirt</p>
+
+      <br />
+      <button onClick={paymentHandler}>Pay</button>
+    </div>
+  );
+}
+
+export default Product;
