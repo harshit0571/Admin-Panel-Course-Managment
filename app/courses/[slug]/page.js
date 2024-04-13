@@ -51,16 +51,17 @@ const Courses = ({ params }) => {
             <ul>
               {courseData.modules &&
                 courseData.modules.map((module, moduleIndex) => (
-                  <Link
-                    href={`/add-module-assignments?courseId=${courseData._id}&moduleId=${module._id}`}
+                  <li
+                    key={moduleIndex}
+                    className="mb-2 bg-blue-500 p-10 rounded-md"
                   >
-                    <li
-                      key={moduleIndex}
-                      className="mb-2 bg-blue-500 p-10 rounded-md"
+                    <Link
+                      href={`/add-videos?courseId=${courseData._id}&moduleId=${module._id}`}
                     >
                       <p className="text-gray-100 font-bold text-2xl">
                         {module.title}
                       </p>
+
                       <ul>
                         {module.videos &&
                           module.videos.map((video, videoIndex) => (
@@ -71,6 +72,10 @@ const Courses = ({ params }) => {
                             </li>
                           ))}
                       </ul>
+                    </Link>
+                    <Link
+                      href={`/add-module-assignments?courseId=${courseData._id}&moduleId=${module._id}`}
+                    >
                       <ul>
                         <h3 className="text-lg text-blue-50 mt-6 font-semibold mb-2">
                           Assignments
@@ -127,8 +132,8 @@ const Courses = ({ params }) => {
                             )
                           )}
                       </ul>
-                    </li>
-                  </Link>
+                    </Link>
+                  </li>
                 ))}
             </ul>
 
