@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { apiLink } from "@/api";
 const AddModuleAssignmentsPage = () => {
@@ -43,6 +43,20 @@ const AddMCQForm = ({ courseId, moduleId }) => {
     const newQuestions = [...questions];
     newQuestions.splice(index, 1);
     setQuestions(newQuestions);
+  };
+
+  const handleDeleteMCQs = async () => {
+    try {
+      const res = await axios.delete(
+        apiLink + `/course/${courseId}/modules/${moduleId}/assignments`
+      );
+      console.log(res, "d");
+
+      // After successfully deleting MCQs, you may want to update the UI accordingly.
+      // For simplicity, we'll just refetch the assignments.
+    } catch (error) {
+      console.error("Error deleting MCQs:", error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -130,6 +144,18 @@ const AddMCQForm = ({ courseId, moduleId }) => {
           Add MCQs
         </button>
       </form>
+
+      {/* Display assignments with delete buttons */}
+      <div className="mt-8">
+        <h3 className="text-xl font-bold mb-4">Assignments</h3>
+
+        <button
+          onClick={() => handleDeleteMCQs()}
+          className="bg-red-500 text-white px-4 py-2 rounded"
+        >
+          Delete MCQ
+        </button>
+      </div>
     </div>
   );
 };
